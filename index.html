@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>KPM HMIT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  color: white;
+  overflow: hidden;
+}
+
+/* ================= LOADING SCREEN ================= */
+#loadingScreen {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 999;
+  transition: opacity 1s ease;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  animation: fadeIn 2s ease forwards;
+}
+
+.loadingText {
+  margin-top: 10px;
+  font-size: 14px;
+  opacity: 0.7;
+  animation: blink 1.5s infinite;
+}
+
+/* ================= MAIN CONTENT ================= */
+#mainContent {
+  display: none;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  gap: 40px;
+}
+
+/* CARD */
+.card {
+  width: 250px;
+  height: 350px;
+  border-radius: 20px;
+  padding: 20px;
+  position: relative;
+  cursor: pointer;
+  transition: 0.4s;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-15px) scale(1.05);
+}
+
+.card.blue {
+  background: linear-gradient(135deg, #0ea5e9, #1e3a8a);
+}
+
+.card.purple {
+  background: linear-gradient(135deg, #7c3aed, #4c1d95);
+}
+
+.number {
+  font-size: 60px;
+  font-weight: 800;
+  opacity: 0.2;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.label {
+  position: absolute;
+  bottom: 20px;
+  font-weight: 600;
+}
+
+.card img {
+  width: 200px;
+  position: absolute;
+  right: -20px;
+  top: 80px;
+  transform: rotate(-15deg);
+  pointer-events: none;
+  transition: 0.4s;
+}
+
+.card:hover img {
+  transform: rotate(-10deg) scale(1.1);
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+@keyframes blink {
+  0%,100% {opacity: 0.3;}
+  50% {opacity: 1;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOADING -->
+<div id="loadingScreen">
+  <div class="logo">WELCOME KATHARSIS</div>
+  <div class="loadingText">Loading...</div>
+</div>
+
+<!-- MAIN -->
+<div id="mainContent">
+  <div class="container">
+
+    <!-- SEKRETARIS -->
+    <div class="card blue" onclick="sekretaris()">
+      <div class="number">01</div>
+      <div class="title">SEKRETARIS</div>
+      <img src="https://cdn-icons-png.flaticon.com/512/2922/2922561.png">
+      <div class="label">Coming Soon</div>
+    </div>
+
+    <!-- BENDAHARA -->
+    <div class="card purple" onclick="bendahara()">
+      <div class="number">02</div>
+      <div class="title">BENDAHARA</div>
+      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135706.png">
+      <div class="label">Masuk</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// LOADING → MASUK MENU
+window.onload = function() {
+  setTimeout(() => {
+    document.getElementById("loadingScreen").style.opacity = "0";
+
+    setTimeout(() => {
+      document.getElementById("loadingScreen").style.display = "none";
+      document.getElementById("mainContent").style.display = "flex";
+    }, 1000);
+
+  }, 2500); // durasi loading
+}
+
+// BUTTON
+function sekretaris() {
+  alert("Fitur Sekretaris belum tersedia 😄"); 
+}
+
+function bendahara() {
+  window.location.href = "bendahara.html";
+}
+</script>
+
+</body>
+</html>

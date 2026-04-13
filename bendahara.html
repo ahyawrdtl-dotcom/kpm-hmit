@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Bendahara - Sistem Transaksi</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+  color: white;
+}
+
+/* BACKGROUND */
+.bg {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: url("kabinet.jpg") center/cover no-repeat;
+  z-index: -2;
+}
+
+/* OVERLAY */
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.65);
+  z-index: -1;
+}
+
+/* WATERMARK */
+body::before {
+  content: "";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  height: 500px;
+  background: url("logo-katharsis.png") no-repeat center;
+  background-size: contain;
+  transform: translate(-50%, -50%);
+  opacity: 0.06;
+  z-index: -1;
+}
+
+/* LOADING */
+#loading {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: #0b1120;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  transition: 0.6s;
+}
+
+#loading h1 {
+  font-size: 40px;
+  letter-spacing: 2px;
+}
+
+/* CONTAINER */
+.container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  animation: fadeIn 1.5s ease;
+}
+
+.step-info {
+  font-size: 14px;
+  opacity: 0.6;
+  margin-bottom: 10px;
+}
+
+/* STEP */
+.step {
+  display: none;
+  max-width: 700px;
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  transition: all 0.6s ease;
+}
+
+.step h2 {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideUp 0.8s ease forwards;
+}
+
+.step p {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideUp 1.2s ease forwards;
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.active {
+  display: block;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+  animation: fadeIn 1s ease;
+}
+
+/* TEXT */
+h1 {
+  font-size: 48px;
+  text-shadow: 0 0 10px rgba(255,255,255,0.4),
+               0 0 20px rgba(255,255,255,0.2);
+}
+h2 { font-size: 28px; color: #d1d5db; }
+p { font-size: 16px; }
+
+/* BUTTON */
+button {
+  padding: 12px 28px;
+  margin: 8px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #9ca3af, #d1d5db);
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 500;
+}
+
+button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(255,255,255,0.2);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+/* PROGRESS */
+.progress {
+  position: fixed;
+  top: 10px;
+  width: 80%;
+  left: 10%;
+  height: 4px;
+  background: rgba(255,255,255,0.2);
+  z-index: 3;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  animation: fadeIn 2s ease forwards;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #d1d5db;
+  transition: 0.4s;
+}
+
+/* MUSIC */
+.music-btn {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  z-index: 3;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 18px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+.typing {
+  overflow: hidden;
+  border-right: 2px solid white;
+  white-space: nowrap;
+  animation: typing 3s steps(30, end), blink 0.7s infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink {
+  50% { border-color: transparent }
+}
+button {
+  padding: 12px 28px;
+  margin: 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+}
+button {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* BACK */
+button:first-of-type {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.5);
+  color: white;
+}
+
+button:first-of-type:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* NEXT */
+button:last-of-type {
+  background: white;
+  color: black;
+}
+
+button:last-of-type:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(255,255,255,0.3);
+}
+
+/* khusus step terakhir */
+.step:last-child h2 {
+  color: #86efac; /* hijau */
+}
+
+.step:last-child .step-img {
+  animation: float 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 15px rgba(134,239,172,0.6));
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  justify-content: center;
+}
+
+.step-img {
+  width: 150px;
+  padding: 15px;
+  border-radius: 20px;
+
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.15);
+
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.4));
+}
+
+.text {
+  text-align: left;
+  max-width: 400px;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOADING -->
+<div id="loading">
+  <h1 class="logo">WELCOME BENDAHARA</h1>
+</div>
+
+<div class="bg"></div>
+<div class="overlay"></div>
+
+<div class="progress">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<div class="container">
+
+  <!-- STEP 0 -->
+  <div class="step active">
+    <h1 class="typing">Sistem Transaksi</h1>
+    <p>KPM HMIT — Kabinet Katharsis</p>
+    <button onclick="startApp()">Gass</button>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step">
+  <div class="content">
+
+    <img src="pengajuan.jpeg" class="step-img">
+
+    <div class="text">
+      <p class="step-info">Step 1 of 5</p>
+      <h2>Pengajuan</h2>
+      <p>Komisi mengajukan kebutuhan barang sebelum pembelian</p>
+
+      <button onclick="prevStep()">← Back</button>
+      <button onclick="nextStep()">Next →</button>
+    </div>
+
+  </div>
+</div>
+
+  <!-- STEP 2 -->
+  <div class="step">
+  <div class="content">
+
+    <img src="approval.jpeg" class="step-img">
+
+    <div class="text">
+      <p class="step-info">Step 2 of 5</p>
+      <h2>Approval</h2>
+      <p>Bendahara melakukan ACC atau Reject</p>
+
+      <button onclick="prevStep()">← Back</button>
+      <button onclick="nextStep()">Next →</button>
+    </div>
+
+  </div>
+</div>
+
+  <!-- STEP 3 -->
+  <div class="step">
+  <div class="content">
+
+    <img src="pembelian.jpeg" class="step-img">
+
+    <div class="text">
+      <p class="step-info">Step 3 of 5</p>
+      <h2>Pembelian</h2>
+      <p>Komisi membeli barang sesuai pengajuan</p>
+
+      <button onclick="prevStep()">← Back</button>
+      <button onclick="nextStep()">Next →</button>
+    </div>
+
+  </div>
+</div>
+
+  <!-- STEP 4 -->
+  <div class="step">
+  <div class="content">
+
+    <img src="nota.jpeg" class="step-img">
+
+    <div class="text">
+      <p class="step-info">Step 4 of 5</p>
+      <h2>Nota</h2>
+      <p><b>Nota wajib berisi:</b> KPM HMIT Universitas Telkom, tanggal, tanda tangan vendor</p>
+
+      <button onclick="prevStep()">← Back</button>
+      <button onclick="nextStep()">Next →</button>
+    </div>
+
+  </div>
+</div>
+
+  <!-- STEP 5 -->
+  <div class="step">
+  <div class="content">
+
+    <img src="reimburse.jpeg" class="step-img">
+
+    <div class="text">
+      <p class="step-info">Step 5 of 5</p>
+      <h2>Reimburse</h2>
+      <p>Dana diganti setelah verifikasi bendahara</p>
+
+      <button onclick="prevStep()">← Back</button>
+      <button onclick="resetStep()">Selesai ✓</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- AUDIO -->
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<button class="music-btn" onclick="toggleMusic()">🎵</button>
+
+<script>
+let current = 0;
+const steps = document.querySelectorAll(".step");
+const progress = document.getElementById("progressBar");
+const music = document.getElementById("bgMusic");
+
+/* LOADING */
+setTimeout(() => {
+  const loading = document.getElementById("loading");
+  loading.style.opacity = "0";
+  loading.style.pointerEvents = "none";
+}, 2000);
+
+/* STEP */
+function showStep(i) {
+  steps.forEach(s => s.classList.remove("active"));
+  steps[i].classList.add("active");
+
+  // RESET ANIMASI
+  const texts = steps[i].querySelectorAll("h2, p");
+  texts.forEach(el => {
+    el.style.animation = "none";
+    el.offsetHeight; // trigger reflow
+    el.style.animation = "";
+  });
+
+  progress.style.width = (i/(steps.length-1))*100 + "%";
+}
+function nextStep() {
+  if (current < steps.length - 1) {
+    current++;
+    showStep(current);
+  }
+}
+
+function prevStep() {
+  if (current > 0) {
+    current--;
+    showStep(current);
+  }
+}
+
+function resetStep() {
+  current = 0;
+  showStep(current);
+}
+
+function startApp() {
+  music.volume = 0.3;
+  music.play();
+  nextStep();
+}
+
+function toggleMusic() {
+  if (music.paused) music.play();
+  else music.pause();
+}
+</script>
+
+</body>
+</html>
